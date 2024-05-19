@@ -13,6 +13,9 @@ using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Net.Http.Headers;
 using static System.Net.Mime.MediaTypeNames;
+using System.DirectoryServices.ActiveDirectory;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using System.Security.Cryptography.Xml;
 
 namespace RPSClient
 {
@@ -26,6 +29,8 @@ namespace RPSClient
         string move;
         bool gamelost = false;
         string[] prevplayers;
+        private string Username;
+        bool gameleft = false;
 
 
 
@@ -49,6 +54,7 @@ namespace RPSClient
             Paper_button.Enabled = false;
             Scissors_button.Enabled = false;
             Leave_button.Enabled = false;
+            Disconnect_button.Enabled = false;
         }
 
         private async void Connect_button_Click(object sender, EventArgs e)
@@ -59,7 +65,7 @@ namespace RPSClient
             client = new TcpClient();
             try
             {
-                
+
                 await client.ConnectAsync(IPBox.Text, int.Parse(PortBox.Text));
                 UpdateConsole("Connected to server.");
 
@@ -83,7 +89,7 @@ namespace RPSClient
         {
             while (client != null)
             {
-                
+
                 try
                 {
                     await streamLock.WaitAsync();
@@ -92,20 +98,21 @@ namespace RPSClient
                         UpdateConsole("Error: Stream reader is not initialized.");
                         return;
                     }
-                    
+
                     SafeUpdateControl(IPBox, () => IPBox.Enabled = false);
                     SafeUpdateControl(PortBox, () => PortBox.Enabled = false);
                     SafeUpdateControl(NameBox, () => NameBox.Enabled = false);
                     SafeUpdateControl(Connect_button, () => Connect_button.Enabled = false);
                     SafeUpdateControl(Leave_button, () => Leave_button.Enabled = true);
-                    SafeUpdateControl(Username_textBox, () => Username_textBox.Text = NameBox.Text);
+                    SafeUpdateControl(Disconnect_button, () => Disconnect_button.Enabled = true);
+                    Username = NameBox.Text;
 
                     string? message;
 
 
                     while ((message = await reader.ReadLineAsync()) != null && !cancellationTokenSource.IsCancellationRequested)
                     {
-                        
+
                         ProcessMessage(message);
                     }
                 }
@@ -133,7 +140,7 @@ namespace RPSClient
             }
         }
 
-        private int count= 0;
+        private int count = 0;
         private void ProcessMessage(string message)
         {
             // Split the message into the command and the content
@@ -163,7 +170,7 @@ namespace RPSClient
                     HandleGameStart();
                     break;
                 case "SENDMOVE":
-                    if(!gamelost)
+                    if (!gamelost)
                     {
                         SendMessage(move);
                     }
@@ -195,11 +202,16 @@ namespace RPSClient
             move = "";
             gamelost = false;
             EnableMoveButtons(false);
+            if (gameleft)
+            {
+                SendMessage($"JOIN {Username_textBox.Text}");
+                gameleft = false;
+            }
         }
         private void HandleGameStart()
         {
             UpdateConsole("Game started!");
-            if (!gamelost)
+            if (!gamelost && !gameleft)
             {
                 EnableMoveButtons(true);
             }
@@ -248,7 +260,7 @@ namespace RPSClient
             {
                 if (moves[i] == Username_textBox.Text)
                 {
-                    SafeUpdateControl(User_richTextBox, () => User_richTextBox.AppendText($"You have played {moves[i + 1]}!\n"));
+                    SafeUpdateControl(User_richTextBox, () => User_richTextBox.AppendText($"{Username_textBox.Text} has played {moves[i + 1]}!\n"));
                 }
 
                 else if (moves[i] == Player1Name_textBox.Text)
@@ -279,20 +291,30 @@ namespace RPSClient
         {
             List<string> names = message.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
 
-            
+
             foreach (string name in names)
             {
-                if (name == Username_textBox.Text)
+                if (name == Username)
                 {
                     int index = names.IndexOf(name);
+                    SafeUpdateControl(Username_textBox, () => Username_textBox.Text = Username);
                     SafeUpdateControl(UserPoint_textBox, () => UserPoint_textBox.Text = names[index + 1]);       //Add points of player here
-                    names.Remove(name);
-                    names.Remove(names[index]);
+                    for (int i = names.Count - 1; i >= 0; i--)
+                    {
+                        if (names[i] == name)
+                        {
+                            names.RemoveAt(i); // Remove name
+                            if (i < names.Count)
+                            { // Check if the next index is still within range
+                                names.RemoveAt(i); // Remove the score
+                            }
+                        }
+                    }
                     break;
                 }
 
             }
-            ClearNameAndPoints(false);
+            ClearNameAndPoints();
             for (int i = 0; i < names.Count; i += 2)
             {
                 if (i == 0)
@@ -311,6 +333,11 @@ namespace RPSClient
                 {
                     SafeUpdateControl(Player3Name_textBox, () => Player3Name_textBox.Text = names[i]);
                     SafeUpdateControl(Player3Point_textBox, () => Player3Point_textBox.Text = names[i + 1]);
+                }
+                else if (i == 6)
+                {
+                    SafeUpdateControl(Username_textBox, () => Username_textBox.Text = names[i]);
+                    SafeUpdateControl(UserPoint_textBox, () => UserPoint_textBox.Text = names[i + 1]);
                 }
 
             }
@@ -374,7 +401,7 @@ namespace RPSClient
                     writer?.Close();
                     reader?.Close();
 
-                    
+
                 }
                 catch (Exception ex)
                 {
@@ -385,7 +412,7 @@ namespace RPSClient
                     // Close the TcpClient
                     client.Close();
                     client = null;
-                    
+
 
                     // Reset stream objects to null to avoid reuse
                     reader = null;
@@ -399,18 +426,18 @@ namespace RPSClient
                     // Re-enable connection UI elements
                     SafeUpdateControl(Leave_button, () => Leave_button.Enabled = false);
                     ClearMoveDisplays();
-                    ClearNameAndPoints(true);
+                    ClearNameAndPoints();
                 }
             }
         }
 
-        private void ClearNameAndPoints(bool usercheck)
+        private void ClearNameAndPoints()
         {
-            if (usercheck)
-            {
-                SafeUpdateControl(Username_textBox, () => Username_textBox.Clear());
-                SafeUpdateControl(UserPoint_textBox, () => UserPoint_textBox.Clear());
-            }
+            
+            
+            SafeUpdateControl(Username_textBox, () => Username_textBox.Clear());
+            SafeUpdateControl(UserPoint_textBox, () => UserPoint_textBox.Clear());
+            
             SafeUpdateControl(Player1Name_textBox, () => Player1Name_textBox.Clear());
             SafeUpdateControl(Player1Point_textBox, () => Player1Point_textBox.Clear());
             SafeUpdateControl(Player2Name_textBox, () => Player2Name_textBox.Clear());
@@ -437,8 +464,17 @@ namespace RPSClient
 
         private void Leave_button_Click(object sender, EventArgs e)
         {
-            Disconnect();
-            EnableConnection();
+            LeaveGame();
+        }
+
+        private void LeaveGame() 
+        { 
+            if (client != null)
+            {
+                gameleft = true;
+                SendMessage($"LEAVE {Username_textBox.Text}");
+            }
+            EnableMoveButtons(false);
         }
 
         private void EnableConnection()
@@ -447,7 +483,13 @@ namespace RPSClient
             SafeUpdateControl(IPBox, () => IPBox.Enabled = true);
             SafeUpdateControl(PortBox, () => PortBox.Enabled = true);
             SafeUpdateControl(Connect_button, () => Connect_button.Enabled = true);
-       
+
+        }
+
+        private void Disconnect_button_Click(object sender, EventArgs e)
+        {
+            Disconnect();
+            EnableConnection();
         }
     }
 }

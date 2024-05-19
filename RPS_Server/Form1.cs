@@ -26,6 +26,7 @@ namespace RPS_Server
 
         private List<Player> connectedPlayers = new List<Player>(); // Game room list
         private Queue<Player> waitingQueue = new Queue<Player>(); // Waiting queue
+        private List<Player> LeaveList = new List<Player>(); //Left Players
 
         private string leaderboardFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "leaderboard.txt");
         private Dictionary<string, int> allTimeLeaderboard = new Dictionary<string, int>();
@@ -45,7 +46,6 @@ namespace RPS_Server
             LoadLeaderboard();
             UpdateLeaderboardUI();
 
-            
         }
 
       
@@ -194,6 +194,7 @@ namespace RPS_Server
                 
                 waitingQueue.Enqueue(player);
                 UpdateUI();
+                await SendMessageToClientAsync(player, "man");
                 await SendMessageToClientAsync(player, "DISPLAY You've been added to the waiting queue.");
                 BroadcastMessageGlobalAsync($"DISPLAY {player.Username} joined the waiting queue.");
             }
@@ -229,7 +230,37 @@ namespace RPS_Server
                 // Handle disconnection without blocking the server
                 await Task.Run(() => HandleDisconnection(player.Client));
             }
+            else if (message.StartsWith("LEAVE"))
+            {
+                await Task.Run(() => HandleLeave(player.Client));
+            }
+            else if (message.StartsWith("JOIN"))
+            {
+                await Task.Run(() => HandleJoin(player.Client));
+            }
             // Other message processing logic here
+        }
+
+        private async void HandleJoin(TcpClient client)
+        {
+            Player player = null;
+            lock (LeaveList)
+            {
+                player = LeaveList.FirstOrDefault(p => p.Client == client);
+                if (player != null)
+                {
+                    LeaveList.Remove(player);
+                }
+            }
+
+            if (player != null)
+            {
+                waitingQueue.Enqueue(player);
+                UpdateUI();
+                await SendMessageToClientAsync(player, "DISPLAY Welcome! You've successfully joined the game room.");
+                BroadcastMessageGlobalAsync($"DISPLAY {player.Username} joined the game room.");
+            }
+            ProcessWaitingQueue();
         }
 
         private void ReceivePlayerMove(string username, string move)
@@ -274,6 +305,36 @@ namespace RPS_Server
             if (isCountdownActive && connectedPlayers.Count < 4)
             {
                 BroadcastMessageGlobalAsync("DISPLAY Player disconnected, insufficient players to continue the countdown.");
+                isCountdownActive = false; // Stop the countdown
+            }
+            ProcessWaitingQueue();
+        }
+
+        private async void HandleLeave(TcpClient client)
+        {
+            Player player = null;
+            lock (connectedPlayers)
+            {
+                player = connectedPlayers.FirstOrDefault(p => p.Client == client);
+                if(player != null)
+                {
+                    connectedPlayers.Remove(player);
+                }
+            }
+
+
+            if (player != null)
+            {
+                LeaveList.Add(player);
+                UpdateUI();
+                await SendMessageToClientAsync(player, "DISPLAY You've been added to the left list.");
+                await SendMessageToClientAsync(player, "DISPLAY You can join after the game.");
+                BroadcastMessageGlobalAsync($"DISPLAY {player.Username} left the game.");
+            }
+
+            if (isCountdownActive && connectedPlayers.Count < 4)
+            {
+                BroadcastMessageGlobalAsync("DISPLAY Player left, insufficient players to continue the countdown.");
                 isCountdownActive = false; // Stop the countdown
             }
             ProcessWaitingQueue();
@@ -558,7 +619,7 @@ namespace RPS_Server
         private async void BroadcastMessageAsync(string message)
         {
             // Send message to all players in the room
-            foreach (var player in connectedPlayers)
+            foreach (var player in connectedPlayers.Concat(LeaveList).Concat(waitingQueue).ToList())
             {
                await SendMessageToClientAsync(player, message);
             }
@@ -568,7 +629,7 @@ namespace RPS_Server
         {
             // Log server-side and send message to the players in the room and the waiting queue
             UpdateGameStatus(message);
-            foreach (var player in connectedPlayers.Concat(waitingQueue.ToList()))
+            foreach (var player in connectedPlayers.Concat(waitingQueue.ToList()).Concat(LeaveList))
             {
                 await SendMessageToClientAsync(player, message);
             }
@@ -626,6 +687,8 @@ namespace RPS_Server
 
             // Update wqueueTextBox with the names of players in the waiting queue
             wqueueTextBox.Text = string.Join(Environment.NewLine, waitingQueue.Select(p => p.Username));
+
+            LeftPlayersTextBox.Text =string.Join(Environment.NewLine, LeaveList.Select(p => p.Username));
         }
 
         private void LoadLeaderboard()
@@ -722,7 +785,7 @@ namespace RPS_Server
                 tcpListener.Stop();
                  // Stop the timer
 
-                foreach (var player in connectedPlayers.Concat(waitingQueue.ToList()))
+                foreach (var player in connectedPlayers.Concat(waitingQueue.ToList()).Concat(LeaveList))
                 {
                     player.Client.Close(); // Close all client connections
                 }

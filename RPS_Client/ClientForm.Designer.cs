@@ -61,6 +61,7 @@
             Player3Name_textBox = new TextBox();
             Player3Point_textBox = new TextBox();
             Console_label = new Label();
+            Disconnect_button = new Button();
             SuspendLayout();
             // 
             // Connect_button
@@ -170,7 +171,7 @@
             // 
             // Leave_button
             // 
-            Leave_button.Location = new Point(654, 398);
+            Leave_button.Location = new Point(641, 403);
             Leave_button.Name = "Leave_button";
             Leave_button.Size = new Size(94, 29);
             Leave_button.TabIndex = 15;
@@ -342,11 +343,22 @@
             Console_label.TabIndex = 37;
             Console_label.Text = "Console";
             // 
+            // Disconnect_button
+            // 
+            Disconnect_button.Location = new Point(799, 470);
+            Disconnect_button.Name = "Disconnect_button";
+            Disconnect_button.Size = new Size(94, 29);
+            Disconnect_button.TabIndex = 38;
+            Disconnect_button.Text = "Disconnect";
+            Disconnect_button.UseVisualStyleBackColor = true;
+            Disconnect_button.Click += Disconnect_button_Click;
+            // 
             // ClientForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(905, 511);
+            Controls.Add(Disconnect_button);
             Controls.Add(Console_label);
             Controls.Add(Player3Point_textBox);
             Controls.Add(Player3Name_textBox);
@@ -421,5 +433,6 @@
         private TextBox Player3Name_textBox;
         private TextBox Player3Point_textBox;
         private Label Console_label;
+        private Button Disconnect_button;
     }
 }

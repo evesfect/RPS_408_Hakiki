@@ -1,1 +1,7 @@
 ege,0
+tolga,0
+tolga2,0
+tolga3,0
+tolga4,1
+tolga5,1
+tolga1,0

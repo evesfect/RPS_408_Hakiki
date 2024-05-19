@@ -1,0 +1,10 @@
+C:\Users\hp\source\repos\RPS_408_Hakiki\RPS_Server\bin\Debug\RPS_Server.exe.config
+C:\Users\hp\source\repos\RPS_408_Hakiki\RPS_Server\bin\Debug\RPS_Server.exe
+C:\Users\hp\source\repos\RPS_408_Hakiki\RPS_Server\bin\Debug\RPS_Server.pdb
+C:\Users\hp\source\repos\RPS_408_Hakiki\RPS_Server\obj\Debug\RPS_Server.csproj.AssemblyReference.cache
+C:\Users\hp\source\repos\RPS_408_Hakiki\RPS_Server\obj\Debug\RPS_Server.ServerForm.resources
+C:\Users\hp\source\repos\RPS_408_Hakiki\RPS_Server\obj\Debug\RPS_Server.Properties.Resources.resources
+C:\Users\hp\source\repos\RPS_408_Hakiki\RPS_Server\obj\Debug\RPS_Server.csproj.GenerateResource.cache
+C:\Users\hp\source\repos\RPS_408_Hakiki\RPS_Server\obj\Debug\RPS_Server.csproj.CoreCompileInputs.cache
+C:\Users\hp\source\repos\RPS_408_Hakiki\RPS_Server\obj\Debug\RPS_Server.exe
+C:\Users\hp\source\repos\RPS_408_Hakiki\RPS_Server\obj\Debug\RPS_Server.pdb

@@ -8,19 +8,19 @@
     "net8.0-windows7.0": []
   },
   "packageFolders": {
-    "C:\\Users\\egeme\\.nuget\\packages\\": {}
+    "C:\\Users\\hp\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\egeme\\Source\\Repos\\RPS_CS408\\RPS_Client\\RPSClient.csproj",
+      "projectUniqueName": "C:\\Users\\hp\\Source\\Repos\\RPS_408_Hakiki\\RPS_Client\\RPSClient.csproj",
       "projectName": "RPSClient",
-      "projectPath": "C:\\Users\\egeme\\Source\\Repos\\RPS_CS408\\RPS_Client\\RPSClient.csproj",
-      "packagesPath": "C:\\Users\\egeme\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\egeme\\Source\\Repos\\RPS_CS408\\RPS_Client\\obj\\",
+      "projectPath": "C:\\Users\\hp\\Source\\Repos\\RPS_408_Hakiki\\RPS_Client\\RPSClient.csproj",
+      "packagesPath": "C:\\Users\\hp\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\hp\\Source\\Repos\\RPS_408_Hakiki\\RPS_Client\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\egeme\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\hp\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -69,7 +69,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.205/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
