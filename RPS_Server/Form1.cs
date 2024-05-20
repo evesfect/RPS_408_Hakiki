@@ -379,6 +379,7 @@ namespace RPS_Server
             {
                 // Move the player from the waiting queue to the game room
                 var player = waitingQueue.Dequeue();
+                _ = SendMessageToClientAsync(player, "GO");
                 connectedPlayers.Add(player);
 
                 // Notify the moved player
