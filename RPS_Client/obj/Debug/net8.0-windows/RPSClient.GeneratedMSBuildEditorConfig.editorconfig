@@ -14,6 +14,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = RPSClient
-build_property.ProjectDir = C:\Users\hp\source\repos\RPS_408_Hakiki\RPS_Client\
+build_property.ProjectDir = C:\Users\egeme\Source\Repos\RPS_408_Hakiki\RPS_Client\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 

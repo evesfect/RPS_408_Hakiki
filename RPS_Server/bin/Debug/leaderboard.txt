@@ -1,7 +1,8 @@
-ege,0
+ege,1
 tolga,0
 tolga2,0
 tolga3,0
 tolga4,1
 tolga5,2
 tolga1,0
+nehir,0
