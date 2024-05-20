@@ -1,17 +1,17 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\hp\\source\\repos\\RPS_408_Hakiki\\RPS_Client\\",
+  "WorkspaceRootPath": "C:\\Users\\egeme\\source\\repos\\RPS_408_Hakiki\\RPS_Client\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{0CD2DA87-E3D3-4EFA-A1AE-768C8CB4EBDF}|RPSClient.csproj|c:\\users\\hp\\source\\repos\\rps_408_hakiki\\rps_client\\clientform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{0CD2DA87-E3D3-4EFA-A1AE-768C8CB4EBDF}|RPSClient.csproj|c:\\users\\egeme\\source\\repos\\rps_408_hakiki\\rps_client\\clientform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0CD2DA87-E3D3-4EFA-A1AE-768C8CB4EBDF}|RPSClient.csproj|solutionrelative:clientform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0CD2DA87-E3D3-4EFA-A1AE-768C8CB4EBDF}|RPSClient.csproj|C:\\Users\\hp\\source\\repos\\RPS_408_Hakiki\\RPS_Client\\clientform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{0CD2DA87-E3D3-4EFA-A1AE-768C8CB4EBDF}|RPSClient.csproj|C:\\Users\\egeme\\source\\repos\\RPS_408_Hakiki\\RPS_Client\\clientform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{0CD2DA87-E3D3-4EFA-A1AE-768C8CB4EBDF}|RPSClient.csproj|solutionrelative:clientform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0CD2DA87-E3D3-4EFA-A1AE-768C8CB4EBDF}|RPSClient.csproj|C:\\Users\\hp\\source\\repos\\RPS_408_Hakiki\\RPS_Client\\clientform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{0CD2DA87-E3D3-4EFA-A1AE-768C8CB4EBDF}|RPSClient.csproj|C:\\Users\\egeme\\source\\repos\\RPS_408_Hakiki\\RPS_Client\\clientform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0CD2DA87-E3D3-4EFA-A1AE-768C8CB4EBDF}|RPSClient.csproj|solutionrelative:clientform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -22,8 +22,12 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 3,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
@@ -36,9 +40,9 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "ClientForm.cs",
-              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\RPS_408_Hakiki\\RPS_Client\\ClientForm.cs",
+              "DocumentMoniker": "C:\\Users\\egeme\\source\\repos\\RPS_408_Hakiki\\RPS_Client\\ClientForm.cs",
               "RelativeDocumentMoniker": "ClientForm.cs",
-              "ToolTip": "C:\\Users\\hp\\source\\repos\\RPS_408_Hakiki\\RPS_Client\\ClientForm.cs",
+              "ToolTip": "C:\\Users\\egeme\\source\\repos\\RPS_408_Hakiki\\RPS_Client\\ClientForm.cs",
               "RelativeToolTip": "ClientForm.cs",
               "ViewState": "AQIAAF8BAAAAAAAAAAAUwHYBAAAtAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -49,9 +53,9 @@
               "$type": "Document",
               "DocumentIndex": 2,
               "Title": "ClientForm.Designer.cs",
-              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\RPS_408_Hakiki\\RPS_Client\\ClientForm.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\egeme\\source\\repos\\RPS_408_Hakiki\\RPS_Client\\ClientForm.Designer.cs",
               "RelativeDocumentMoniker": "ClientForm.Designer.cs",
-              "ToolTip": "C:\\Users\\hp\\source\\repos\\RPS_408_Hakiki\\RPS_Client\\ClientForm.Designer.cs",
+              "ToolTip": "C:\\Users\\egeme\\source\\repos\\RPS_408_Hakiki\\RPS_Client\\ClientForm.Designer.cs",
               "RelativeToolTip": "ClientForm.Designer.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAJ4BAAAcAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -61,10 +65,10 @@
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "ClientForm.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\RPS_408_Hakiki\\RPS_Client\\ClientForm.cs",
+              "DocumentMoniker": "C:\\Users\\egeme\\source\\repos\\RPS_408_Hakiki\\RPS_Client\\ClientForm.cs",
               "RelativeDocumentMoniker": "ClientForm.cs",
               "ToolTip": "C:\\Users\\hp\\source\\repos\\RPS_408_Hakiki\\RPS_Client\\ClientForm.cs [Design]",
-              "RelativeToolTip": "ClientForm.cs [Design]",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\hp\\source\\repos\\RPS_408_Hakiki\\RPS_Client\\ClientForm.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-19T15:59:49.822Z"
             }
