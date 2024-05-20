@@ -184,6 +184,7 @@ namespace RPSClient
                     break;
                 case "NEXTROUND":
                     ClearMoveDisplays();
+                    UpdateConsole("New Round Started!");
                     break;
                 case "WAIT":
                     gamewait = true;

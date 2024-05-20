@@ -649,40 +649,19 @@ namespace RPS_Server
         private async void BroadcastMessageAsync(string message)
         {
             // Send message to all players in the room
-            var allPlayers = new List<Player>(connectedPlayers.Concat(waitingQueue.ToList()).Concat(LeaveList));
-
-            foreach (var player in allPlayers)
+            foreach (var player in connectedPlayers.Concat(LeaveList).Concat(waitingQueue).ToList())
             {
-                try
-                {
-                    await SendMessageToClientAsync(player, message);
-                }
-                catch (Exception ex)
-                {
-                    UpdateGameStatus($"Error sending message to {player.Username}: {ex.Message}");
-                    Console.WriteLine($"Error sending message to {player.Username}: {ex.Message}");
-                }
+               await SendMessageToClientAsync(player, message);
             }
         }
 
         private async void BroadcastMessageGlobalAsync(string message)
         {
+            // Log server-side and send message to the players in the room and the waiting queue
             UpdateGameStatus(message);
-
-            // Log server-side and send message to the players in the room, waiting queue and the leavequeue
-            var allPlayers = new List<Player>(connectedPlayers.Concat(waitingQueue.ToList()).Concat(LeaveList));
-
-            foreach (var player in allPlayers)
+            foreach (var player in connectedPlayers.Concat(waitingQueue.ToList()).Concat(LeaveList))
             {
-                try
-                {
-                    await SendMessageToClientAsync(player, message);
-                }
-                catch (Exception ex)
-                {
-                    UpdateGameStatus($"Error sending message to {player.Username}: {ex.Message}");
-                    Console.WriteLine($"Error sending message to {player.Username}: {ex.Message}");
-                }
+                await SendMessageToClientAsync(player, message);
             }
         }
 
