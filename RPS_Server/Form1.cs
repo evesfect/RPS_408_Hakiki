@@ -285,6 +285,7 @@ namespace RPS_Server
         private void HandleDisconnection(TcpClient client)
         {
             Player player = null;
+            
             lock (connectedPlayers)
             {
                 player = connectedPlayers.FirstOrDefault(p => p.Client == client);
@@ -293,6 +294,33 @@ namespace RPS_Server
                     connectedPlayers.Remove(player);
                 }
             }
+
+            if (player == null)
+            {
+                lock (waitingQueue)
+                {
+                    var waitingList = waitingQueue.ToList();
+                    player = waitingList.FirstOrDefault(p => p.Client == client);
+                    if (player != null)
+                    {
+                        waitingList.Remove(player);
+                        waitingQueue = new Queue<Player>(waitingList);
+                    }
+                }
+            }
+
+            if (player == null)
+            {
+                lock (LeaveList)
+                {
+                    player = LeaveList.FirstOrDefault(p => p.Client == client);
+                    if (player != null)
+                    {
+                        LeaveList.Remove(player);
+                    }
+                }
+            }
+
 
             if (player != null)
             {

@@ -314,7 +314,7 @@ namespace RPSClient
                 }
 
             }
-            ClearNameAndPoints();
+            ClearNameAndPoints(false);
             for (int i = 0; i < names.Count; i += 2)
             {
                 if (i == 0)
@@ -426,17 +426,19 @@ namespace RPSClient
                     // Re-enable connection UI elements
                     SafeUpdateControl(Leave_button, () => Leave_button.Enabled = false);
                     ClearMoveDisplays();
-                    ClearNameAndPoints();
+                    ClearNameAndPoints(true);
                 }
             }
         }
 
-        private void ClearNameAndPoints()
+        private void ClearNameAndPoints(bool enable)
         {
-            
-            
-            SafeUpdateControl(Username_textBox, () => Username_textBox.Clear());
-            SafeUpdateControl(UserPoint_textBox, () => UserPoint_textBox.Clear());
+
+            if (enable)
+            {
+                SafeUpdateControl(Username_textBox, () => Username_textBox.Clear());
+                SafeUpdateControl(UserPoint_textBox, () => UserPoint_textBox.Clear());
+            }
             
             SafeUpdateControl(Player1Name_textBox, () => Player1Name_textBox.Clear());
             SafeUpdateControl(Player1Point_textBox, () => Player1Point_textBox.Clear());
