@@ -31,6 +31,7 @@ namespace RPSClient
         string[] prevplayers;
         private string Username;
         bool gameleft = false;
+        bool gamewait = false;
 
 
 
@@ -184,6 +185,12 @@ namespace RPSClient
                 case "NEXTROUND":
                     ClearMoveDisplays();
                     break;
+                case "WAIT":
+                    gamewait = true;
+                    break;
+                case "GO":
+                    gamewait = false;
+                    break;
                 case "GAMEOVER":
                     HandleGameOver();
                     break;
@@ -211,7 +218,7 @@ namespace RPSClient
         private void HandleGameStart()
         {
             UpdateConsole("Game started!");
-            if (!gamelost && !gameleft)
+            if (!gamelost && !gameleft && !gamewait)
             {
                 EnableMoveButtons(true);
             }
