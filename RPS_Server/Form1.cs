@@ -196,6 +196,7 @@ namespace RPS_Server
                 UpdateUI();
                 await SendMessageToClientAsync(player, "man");
                 await SendMessageToClientAsync(player, "DISPLAY You've been added to the waiting queue.");
+                await SendMessageToClientAsync(player, "WAIT");
                 BroadcastMessageGlobalAsync($"DISPLAY {player.Username} joined the waiting queue.");
             }
             ProcessWaitingQueue();
@@ -257,8 +258,9 @@ namespace RPS_Server
             {
                 waitingQueue.Enqueue(player);
                 UpdateUI();
-                await SendMessageToClientAsync(player, "DISPLAY Welcome! You've successfully joined the game room.");
-                BroadcastMessageGlobalAsync($"DISPLAY {player.Username} joined the game room.");
+                await SendMessageToClientAsync(player, "DISPLAY Welcome! You've successfully joined the waiting room.");
+                await SendMessageToClientAsync(player, "WAIT");
+                BroadcastMessageGlobalAsync($"DISPLAY {player.Username} joined the waiting room.");
             }
             ProcessWaitingQueue();
         }
