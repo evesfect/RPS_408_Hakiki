@@ -23,6 +23,7 @@ namespace RPS_Server
         private List<Task> clientTasks = new List<Task>();
         private CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         private bool serverRunning = false;
+        private bool gameStarted = false;
 
         private List<Player> connectedPlayers = new List<Player>(); // Game room list
         private Queue<Player> waitingQueue = new Queue<Player>(); // Waiting queue
@@ -179,8 +180,8 @@ namespace RPS_Server
 
         private async void AddPlayerToGameOrQueue(Player player)
         {
-            
-            if (connectedPlayers.Count < 4)
+
+            if (!gameStarted && connectedPlayers.Count < 4)
             {
                 
                 connectedPlayers.Add(player);
@@ -375,7 +376,7 @@ namespace RPS_Server
         private void ProcessWaitingQueue()
         {
             // Check if there's room in the game and players in the waiting queue
-            while (connectedPlayers.Count < 4 && waitingQueue.Count > 0)
+            while (!gameStarted && waitingQueue.Count > 0 && connectedPlayers.Count < 4)
             {
                 // Move the player from the waiting queue to the game room
                 var player = waitingQueue.Dequeue();
@@ -463,6 +464,7 @@ namespace RPS_Server
         private async void StartGame()
         {
             // Game start logic
+            gameStarted = true;
             BroadcastMessageGlobalAsync("GAMESTART Game started...");
             await Task.Delay(10000); // 10 second timer
 
@@ -542,9 +544,10 @@ namespace RPS_Server
             {
                 BroadcastMessageGlobalAsync("DISPLAY Nobody played their hand!");
                 BroadcastMessageGlobalAsync("DISPLAY RESTARTING THE GAME AFTER 5 SECONDS.");
+                gameStarted = false;
                 BroadcastMessageGlobalAsync("GAMEOVER");
                 await Task.Delay(5000);
-                StartGameCountdown();
+                ProcessWaitingQueue();
             }
             else // if no hands are played
             {
@@ -579,24 +582,24 @@ namespace RPS_Server
                 {
                     BroadcastMessageGlobalAsync("ERROR Winning player cannot be found in the game room!");
                 }
-                
 
+                gameStarted = false;
                 BroadcastMessageGlobalAsync("GAMEOVER");
                 BroadcastMessageGlobalAsync("DISPLAY Gameover: " + winningPlayerName + " wins!");
                 results.Clear();
 
                 BroadcastMessageGlobalAsync("DISPLAY Countdown for the next game will start after 5 seconds.");
                 await Task.Delay(5000);
-                StartGameCountdown();
+                ProcessWaitingQueue();
             }
             else
             {
-                
+                gameStarted = false;
                 BroadcastMessageGlobalAsync("GAMEOVER");
                 BroadcastMessageGlobalAsync("DISPLAY There isn't any alive players, something went wrong!");
                 BroadcastMessageGlobalAsync("DISPLAY RESTARTING THE GAME AFTER 5 SECONDS.");
                 await Task.Delay(5000);
-                StartGameCountdown();
+                ProcessWaitingQueue();
             }
 
         }
@@ -694,7 +697,7 @@ namespace RPS_Server
             {
                 playersString += $" {InGameplayer.Username} {InGameplayer.Wins}";
             }
-            BroadcastMessageAsync(playersString);
+            BroadcastMessageGlobalAsync(playersString);
 
         }
 
